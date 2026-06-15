@@ -18,19 +18,49 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     const tl = gsap.timeline();
     
-    // Split text or animate words
-    tl.fromTo(
-      headlineRef.current,
-      { y: 100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power4.out", delay: 0.5 }
-    );
+    // Prepare headline text for dynamic reveal
+    const headline = headlineRef.current;
+    if (headline) {
+      const text = headline.innerText;
+      headline.innerHTML = text
+        .split(" ")
+        .map(word => {
+          return `<span style="overflow:hidden; display:inline-block; vertical-align:bottom; padding-bottom: 5px;">
+            <span class="hero-word" style="display:inline-block; transform:translateY(115%);">${word}</span>
+          </span>`;
+        })
+        .join(" ");
+    }
+
+    // Prepare subheadline text for dynamic reveal
+    const subheadline = subtitleRef.current;
+    if (subheadline) {
+      const text = subheadline.innerText;
+      subheadline.innerHTML = text
+        .split(" ")
+        .map(word => {
+          return `<span style="overflow:hidden; display:inline-block; vertical-align:bottom;">
+            <span class="hero-subword" style="display:inline-block; transform:translateY(115%);">${word}</span>
+          </span>`;
+        })
+        .join(" ");
+    }
+
+    // Start reveal animations after page loader slides out
+    tl.to(".hero-word", {
+      transform: "translateY(0%)",
+      stagger: 0.08,
+      duration: 1.2,
+      ease: "power4.out",
+      delay: 2.2 // wait for PageLoader to slide up
+    });
     
-    tl.fromTo(
-      subtitleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-      "-=0.8"
-    );
+    tl.to(".hero-subword", {
+      transform: "translateY(0%)",
+      stagger: 0.03,
+      duration: 1.0,
+      ease: "power3.out"
+    }, "-=0.8");
 
     tl.fromTo(
       scrollRef.current,
@@ -43,7 +73,7 @@ export const Hero: React.FC = () => {
   const handleVideoCanPlay = () => {
     if (videoRef.current) {
       gsap.to(videoRef.current, {
-        opacity: 0.35, // Premium subtle opacity for high contrast reading
+        opacity: 0.48, // Premium subtle opacity for high contrast reading
         duration: 1.5,
         ease: "power2.out"
       });

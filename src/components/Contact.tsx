@@ -29,6 +29,15 @@ export const Contact: React.FC = () => {
 
   return (
     <section id="contact" className={styles.section} aria-label="Contact Section">
+      {/* Dynamic Animated Marquee Ticker */}
+      <div className={styles.tickerContainer}>
+        <div className={styles.tickerTrack}>
+          <span>LET'S CREATE THE FUTURE • WORK WITH US • TURN WHITESPACES INTO WINNING SPACES • </span>
+          <span>LET'S CREATE THE FUTURE • WORK WITH US • TURN WHITESPACES INTO WINNING SPACES • </span>
+          <span>LET'S CREATE THE FUTURE • WORK WITH US • TURN WHITESPACES INTO WINNING SPACES • </span>
+        </div>
+      </div>
+
       <div className="grid-container">
         {/* Asymmetric Left side: Headline + Minimalist Form */}
         <div className={styles.formCol}>

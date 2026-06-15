@@ -32,12 +32,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  transition: all var(--transition-fast);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .statCard:hover {
-  border-color: rgba(201, 168, 76, 0.3);
-  background-color: rgba(255, 255, 255, 0.01);
+  border-color: rgba(201, 168, 76, 0.45);
+  background-color: rgba(255, 255, 255, 0.015);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 15px rgba(201, 168, 76, 0.05);
 }
 
 .number {

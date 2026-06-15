@@ -4,6 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n";
 import styles from "@/styles/Stats.module.css";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Stats: React.FC = () => {
   const { t } = useLanguage();
@@ -16,69 +19,51 @@ export const Stats: React.FC = () => {
   const [valueCount, setValueCount] = useState(0);
 
   useEffect(() => {
-    let active = true;
+    const ctx = gsap.context(() => {
+      const statsObj = { exp: 0, pedigree: 0, value: 0 };
 
-    const runCounters = () => {
-      // Experience: 0 to 15
-      let c1 = 0;
-      const t1 = setInterval(() => {
-        if (!active) return clearInterval(t1);
-        c1 += 1;
-        setExpCount(c1);
-        if (c1 >= 15) clearInterval(t1);
-      }, 50);
+      gsap.to(statsObj, {
+        exp: 15,
+        pedigree: 100,
+        value: 500,
+        duration: 2.0,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          once: true,
+        },
+        onUpdate: () => {
+          setExpCount(Math.floor(statsObj.exp));
+          setPedigreeCount(Math.floor(statsObj.pedigree));
+          setValueCount(Math.floor(statsObj.value));
+        }
+      });
 
-      // Pedigree: 0 to 100
-      let c2 = 0;
-      const t2 = setInterval(() => {
-        if (!active) return clearInterval(t2);
-        c2 += 4;
-        setPedigreeCount(c2);
-        if (c2 >= 100) clearInterval(t2);
-      }, 30);
-
-      // Value: 0 to 500 (in Billions IDR)
-      let c3 = 0;
-      const t3 = setInterval(() => {
-        if (!active) return clearInterval(t3);
-        c3 += 20;
-        setValueCount(c3);
-        if (c3 >= 500) clearInterval(t3);
-      }, 30);
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            runCounters();
-            
-            // GSAP slide quote in
-            gsap.fromTo(
-              quoteRef.current,
-              { opacity: 0, y: 30 },
-              { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }
-            );
-
-            observer.unobserve(entry.target);
+      // GSAP slide quote in
+      gsap.fromTo(
+        quoteRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: quoteRef.current,
+            start: "top 85%",
+            once: true,
           }
-        });
-      },
-      { threshold: 0.2 }
-    );
+        }
+      );
+    });
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      active = false;
-      observer.disconnect();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
+      id="stats"
       ref={sectionRef}
       className={`${styles.section} dark-section`}
       aria-label="Impact and Pedigree Stats"

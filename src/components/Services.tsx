@@ -91,6 +91,9 @@ export const Services: React.FC = () => {
             >
               <div className={styles.rowBorder} />
               
+              {/* Giant Background Ghost Number */}
+              <div className={styles.ghostNumber}>{service.num}</div>
+              
               <div className={styles.rowContent}>
                 {/* Asymmetric Left side: Number + Title */}
                 <div className={styles.leftMeta}>

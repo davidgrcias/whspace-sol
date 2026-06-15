@@ -220,3 +220,37 @@
   letter-spacing: 0.15em;
   color: var(--white);
 }
+
+/* Giant background ghost numbers */
+.ghostNumber {
+  position: absolute;
+  right: 120px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: 9rem;
+  font-weight: 700;
+  color: rgba(201, 168, 76, 0.02);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity var(--transition-medium), transform var(--transition-medium), color var(--transition-medium);
+}
+
+@media (max-width: 1024px) {
+  .ghostNumber {
+    font-size: 6rem;
+    right: 40px;
+  }
+}
+
+.row:hover .ghostNumber,
+.activeRow .ghostNumber {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.05);
+}
+
+:global(body.dark-theme-active) .ghostNumber {
+  color: rgba(255, 255, 255, 0.015);
+}

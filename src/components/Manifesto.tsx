@@ -4,6 +4,9 @@ import React, { useEffect, useRef } from "react";
 import { useLanguage } from "@/lib/i18n";
 import styles from "@/styles/Manifesto.module.css";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Manifesto: React.FC = () => {
   const { t } = useLanguage();
@@ -12,7 +15,6 @@ export const Manifesto: React.FC = () => {
   const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Reveal text word-by-word as you scroll
     const textElement = wordsRef.current;
     if (!textElement) return;
 
@@ -24,42 +26,43 @@ export const Manifesto: React.FC = () => {
 
     const spans = textElement.querySelectorAll(`.${styles.word}`);
     
-    // Intersection Observer to stagger reveal
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            gsap.fromTo(
-              spans,
-              { opacity: 0.1, y: 10 },
-              {
-                opacity: 1,
-                y: 0,
-                stagger: 0.05,
-                duration: 0.8,
-                ease: "power2.out",
-                overwrite: "auto",
-              }
-            );
-
-            gsap.fromTo(
-              detailRef.current,
-              { opacity: 0, y: 40 },
-              { opacity: 1, y: 0, duration: 1, ease: "power2.out", delay: 0.4 }
-            );
-
-            observer.unobserve(entry.target);
+    const ctx = gsap.context(() => {
+      // Highlights words page by page as user scrolls down
+      gsap.fromTo(
+        spans,
+        { opacity: 0.12 },
+        {
+          opacity: 1,
+          stagger: 0.05,
+          ease: "none",
+          scrollTrigger: {
+            trigger: textElement,
+            start: "top 80%",
+            end: "bottom 60%",
+            scrub: true,
           }
-        });
-      },
-      { threshold: 0.2 }
-    );
+        }
+      );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+      // Detail blocks fade/slide up
+      gsap.fromTo(
+        detailRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: detailRef.current,
+            start: "top 88%",
+            once: true
+          }
+        }
+      );
+    });
 
-    return () => observer.disconnect();
+    return () => ctx.revert();
   }, [t.manifesto.main]); // Re-run if language changes
 
   return (

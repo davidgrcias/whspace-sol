@@ -204,3 +204,44 @@
   letter-spacing: 0.15em;
   color: rgba(255, 255, 255, 0.3);
 }
+
+.connectorLine {
+  position: absolute;
+  top: 155px; /* middle of illustration wrapper */
+  left: 48px;
+  width: calc(100% - 96px);
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .connectorLine {
+    top: 108px;
+    left: 32px;
+    width: calc(100% - 64px);
+  }
+}
+
+.connectorLineFill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--gold);
+  transition: width 0.1s ease-out;
+}
+
+.watermarkNumber {
+  position: absolute;
+  bottom: -40px;
+  right: -20px;
+  font-family: var(--font-display);
+  font-size: 14rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.012);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+

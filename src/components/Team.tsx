@@ -55,8 +55,10 @@ export const Team: React.FC = () => {
 
       <div className="grid-container">
         <div className={styles.cardsGrid}>
-          {teamList.map((member) => (
-            <TeamCard key={member.id} member={member} />
+          {teamList.map((member, index) => (
+            <div key={member.id} className={`${styles.cardWrapper} ${index % 2 === 1 ? styles.cardOffset : ""}`}>
+              <TeamCard member={member} />
+            </div>
           ))}
         </div>
       </div>

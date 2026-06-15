@@ -15,6 +15,9 @@
 
 .leftCol {
   grid-column: 1 / span 3;
+  position: sticky;
+  top: 120px;
+  height: fit-content;
 }
 
 .rightCol {

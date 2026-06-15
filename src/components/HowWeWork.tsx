@@ -8,7 +8,9 @@ import gsap from "gsap";
 export const HowWeWork: React.FC = () => {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollOuterRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const lineFillRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export const HowWeWork: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const panels = scrollContainerRef.current?.children;
+            const panels = scrollContainerRef.current?.querySelectorAll(`.${styles.panel}`);
             if (panels) {
               gsap.fromTo(
                 panels,
@@ -45,6 +47,26 @@ export const HowWeWork: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Update horizontal connector progress on horizontal scroll
+  useEffect(() => {
+    const outer = scrollOuterRef.current;
+    const fill = lineFillRef.current;
+    if (!outer || !fill) return;
+
+    const handleScroll = () => {
+      const maxScroll = outer.scrollWidth - outer.clientWidth;
+      if (maxScroll <= 0) return;
+      const pct = (outer.scrollLeft / maxScroll) * 100;
+      fill.style.width = `${pct}%`;
+    };
+
+    outer.addEventListener("scroll", handleScroll);
+    // Initial update
+    handleScroll();
+
+    return () => outer.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section
       id="process"
@@ -60,11 +82,19 @@ export const HowWeWork: React.FC = () => {
       </div>
 
       {/* Horizontal Scroll Containers */}
-      <div className={styles.scrollOuter}>
+      <div ref={scrollOuterRef} className={styles.scrollOuter}>
         <div ref={scrollContainerRef} className={styles.scrollInner}>
+          {/* Connector Line running behind panels */}
+          <div className={styles.connectorLine}>
+            <div ref={lineFillRef} className={styles.connectorLineFill} />
+          </div>
+
           {t.process.steps.map((step, index) => {
             return (
               <div key={step.num} className={styles.panel}>
+                {/* Giant watermark number */}
+                <div className={styles.watermarkNumber}>{step.num}</div>
+                
                 <div className={styles.panelNumber}>{step.num}</div>
                 <div className={styles.panelContent}>
                   {/* Custom SVG Blueprint Illustration (Anti-generic) */}

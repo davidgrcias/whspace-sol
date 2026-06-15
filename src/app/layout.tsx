@@ -3,6 +3,8 @@ import { Libre_Baskerville, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n";
 import { Cursor } from "@/components/Cursor";
+import { PageLoader } from "@/components/PageLoader";
+import { SectionIndicator } from "@/components/SectionIndicator";
 
 const libreBaskerville = Libre_Baskerville({
   weight: ["400", "700"],
@@ -48,6 +50,8 @@ export default function RootLayout({
     >
       <body>
         <LanguageProvider>
+          <PageLoader />
+          <SectionIndicator />
           <div className="noise-overlay" />
           <Cursor />
           {children}
