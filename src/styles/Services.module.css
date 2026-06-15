@@ -1,0 +1,222 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 160px 0;
+  background-color: var(--black);
+  color: var(--white);
+  z-index: 15;
+  overflow: hidden;
+}
+
+.headerCol {
+  grid-column: 1 / span 10;
+}
+
+@media (max-width: 768px) {
+  .headerCol {
+    grid-column: 1 / -1;
+  }
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-top: 24px;
+  color: var(--white);
+}
+
+@media (max-width: 1024px) {
+  .heading {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 2rem;
+  }
+}
+
+/* Service Rows */
+.rowsContainer {
+  margin-top: 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.row {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--transition-medium);
+}
+
+.rowBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+  transition: background-color var(--transition-medium);
+}
+
+.rowContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 40px;
+  max-width: 1440px;
+  margin: 0 auto;
+  gap: 40px;
+  transition: padding var(--transition-medium);
+}
+
+@media (max-width: 1024px) {
+  .rowContent {
+    padding: 40px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.leftMeta {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .leftMeta {
+    gap: 24px;
+  }
+}
+
+.number {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  transition: transform var(--transition-medium);
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+.rightDesc {
+  flex: 1.2;
+  max-width: 600px;
+  opacity: 0.3;
+  transform: translateY(10px);
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+}
+
+@media (max-width: 1024px) {
+  .rightDesc {
+    max-width: 100%;
+    transform: none;
+    opacity: 0.8;
+  }
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #AAA;
+}
+
+.arrowContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  transition: all var(--transition-medium);
+}
+
+@media (max-width: 1024px) {
+  .arrowContainer {
+    position: absolute;
+    top: 40px;
+    right: 24px;
+  }
+}
+
+.arrow {
+  transition: transform var(--transition-medium);
+}
+
+/* Row Hover States */
+.row:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.row:hover .rowBorder {
+  background-color: var(--gold);
+}
+
+.row:hover .title {
+  transform: translateX(10px);
+}
+
+@media (max-width: 1024px) {
+  .row:hover .title {
+    transform: none;
+  }
+}
+
+.row:hover .rightDesc,
+.activeRow .rightDesc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.row:hover .arrowContainer,
+.activeRow .arrowContainer {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+}
+
+.row:hover .arrow,
+.activeRow .arrow {
+  transform: rotate(-45deg);
+}
+
+/* Watermark Coordinates */
+.coordinates {
+  position: absolute;
+  bottom: 24px;
+  right: 40px;
+  opacity: 0.15;
+}
+
+@media (max-width: 768px) {
+  .coordinates {
+    display: none;
+  }
+}
+
+.coordinates span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--white);
+}

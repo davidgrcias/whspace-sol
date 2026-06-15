@@ -1,0 +1,156 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 160px 0;
+  background-color: var(--black);
+  color: var(--white);
+  z-index: 12;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.headerCol {
+  grid-column: 1 / span 10;
+}
+
+@media (max-width: 768px) {
+  .headerCol {
+    grid-column: 1 / -1;
+  }
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-top: 24px;
+}
+
+@media (max-width: 1024px) {
+  .heading {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 2rem;
+  }
+}
+
+.cardsGrid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+@media (max-width: 900px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* 3D Tilt Card */
+.card {
+  background-color: var(--charcoal);
+  border: 1px solid var(--card-border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.1s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card:hover {
+  border-color: rgba(201, 168, 76, 0.4);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  transition: background var(--transition-fast);
+}
+
+/* Skewed Polygonal Image Crop (Anti-generic) */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  clip-path: polygon(0% 0%, 100% 0%, 88% 100%, 0% 92%);
+  margin-bottom: 24px;
+  transform: translateZ(20px); /* Pushes image outward in 3D space */
+}
+
+@media (max-width: 1024px) {
+  .imageWrapper {
+    height: 320px;
+  }
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.08);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(11, 11, 11, 0) 50%, rgba(11, 11, 11, 0.8) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cardContent {
+  transform: translateZ(40px); /* Pushes text further outward in 3D space */
+}
+
+.roleLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .name {
+    font-size: 1.5rem;
+  }
+}
+
+.tagline {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: #AAA;
+  line-height: 1.5;
+}

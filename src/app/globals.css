@@ -1,26 +1,253 @@
-@import "tailwindcss";
-
+/* --- DESIGN SYSTEM TOKENS --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors */
+  --white: #F3F1EC;       /* Warm editorial white */
+  --black: #0B0B0B;       /* Near black */
+  --gold: #C9A84C;        /* Signature luxurious gold */
+  --gold-dim: #8F7430;    /* Darker gold for active states */
+  --smoke: #E7E3D9;       /* Secondary warm grey/white */
+  --charcoal: #151515;    /* Subtle dark grey for cards */
+  --card-border: rgba(255, 255, 255, 0.05);
+  --card-border-light: rgba(11, 11, 11, 0.08);
+
+  /* Font Families mapped from next/font variables */
+  --font-display: var(--font-display), "Libre Baskerville", serif;
+  --font-body: var(--font-body), "DM Sans", sans-serif;
+  --font-mono: var(--font-mono), "DM Mono", monospace;
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-medium: 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  --transition-slow: 0.8s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* --- BASE STYLES --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  background-color: var(--white);
+  color: var(--black);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  scroll-behavior: auto; /* Handled by GSAP/custom scroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Selection */
+::selection {
+  background-color: var(--gold);
+  color: var(--black);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Body Dark Scrollbar Toggle */
+body.dark-theme-active::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+/* --- NOISE OVERLAY --- */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+p {
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* --- CUSTOM CURSOR --- */
+.custom-cursor {
+  width: 12px;
+  height: 12px;
+  background-color: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+}
+
+/* Interactive Cursor States */
+.custom-cursor.hovering-link {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(201, 168, 76, 0.3);
+  border: 1px solid var(--gold);
+  mix-blend-mode: normal;
+}
+
+.custom-cursor.hovering-dark {
+  background-color: var(--white);
+}
+
+.custom-cursor.hovering-text {
+  width: 80px;
+  height: 80px;
+  background-color: var(--gold);
+  mix-blend-mode: difference;
+}
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --- ASYMMETRIC LAYOUT UTILITIES --- */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 1024px) {
+  .grid-container {
+    padding: 0 24px;
+    gap: 16px;
+  }
+}
+
+/* Spacers */
+.section-padding {
+  padding: 160px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 100px 0;
+  }
+}
+
+/* --- BUTTON & ACTION --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+  padding: 16px 32px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-medium);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--gold);
+  transition: all var(--transition-medium);
+  z-index: 1;
+}
+
+.btn-primary:hover::before {
+  top: 0;
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 2;
+  transition: color var(--transition-medium);
+}
+
+.btn-primary:hover span {
+  color: var(--black);
+}
+
+/* Dark mode button version */
+.btn-primary.btn-dark-version {
+  background-color: transparent;
+  color: var(--white);
+  border: 1px solid var(--white);
+}
+
+.btn-primary.btn-dark-version::before {
+  background-color: var(--white);
+}
+
+.btn-primary.btn-dark-version:hover span {
+  color: var(--black);
+}
+
+/* --- OVERFLOW HEADING TEXT (ANTI-GENERIC STATEMENT) --- */
+.overflowing-heading {
+  font-size: 8vw;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  margin-left: -5%;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(11, 11, 11, 0.15);
+}
+
+.overflowing-heading.dark-section {
+  -webkit-text-stroke: 1px rgba(243, 241, 236, 0.1);
+}
+
+.overflowing-heading span {
+  color: var(--black);
+}
+
+.overflowing-heading.dark-section span {
+  color: var(--white);
 }

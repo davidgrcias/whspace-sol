@@ -1,0 +1,223 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 160px 0 60px 0;
+  background-color: var(--white);
+  color: var(--black);
+  z-index: 10;
+  overflow: hidden;
+  border-top: 1px solid rgba(11, 11, 11, 0.05);
+}
+
+.formCol {
+  grid-column: 1 / span 7;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .formCol {
+    grid-column: 1 / -1;
+    margin-bottom: 80px;
+  }
+}
+
+.headline {
+  margin-bottom: 60px;
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 1024px) {
+  .headline {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .headline {
+    font-size: 2.5rem;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 580px;
+}
+
+.inputGroup {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 16px 0;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(11, 11, 11, 0.15);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--black);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.input::placeholder {
+  color: rgba(11, 11, 11, 0.4);
+}
+
+.input:focus {
+  border-bottom-color: var(--gold);
+}
+
+textarea.input {
+  resize: none;
+}
+
+.successMessage {
+  background-color: rgba(201, 168, 76, 0.1);
+  border: 1px solid var(--gold);
+  padding: 24px;
+  border-radius: 4px;
+  max-width: 580px;
+}
+
+.successMessage p {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--gold-dim);
+  font-weight: 700;
+}
+
+/* Right Columns - Address Info */
+.infoCol {
+  grid-column: 9 / span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .infoCol {
+    grid-column: 1 / -1;
+  }
+}
+
+.officeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.officeTitle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.address {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-line;
+}
+
+.phone {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.emailBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.emailLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #999;
+  letter-spacing: 0.1em;
+}
+
+.emailLink {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--black);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color var(--transition-fast);
+}
+
+.emailLink:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .emailLink {
+    font-size: 1.4rem;
+  }
+}
+
+/* Footer Meta Row */
+.footer {
+  margin-top: 120px;
+  width: 100%;
+  border-top: 1px solid rgba(11, 11, 11, 0.08);
+  padding-top: 40px;
+}
+
+.footerLeft {
+  grid-column: 1 / span 6;
+}
+
+.footerRight {
+  grid-column: 7 / span 6;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .footerLeft {
+    grid-column: 1 / -1;
+    margin-bottom: 16px;
+  }
+  .footerRight {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+}
+
+.footerLeft span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: #888;
+}
+
+.footerRight a,
+.footerRight span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: #888;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footerRight a:hover {
+  color: var(--gold);
+}

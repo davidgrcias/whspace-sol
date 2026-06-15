@@ -1,0 +1,123 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 180px 0;
+  background-color: var(--white);
+  z-index: 12;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(11, 11, 11, 0.05);
+  transition: background-color var(--transition-medium);
+}
+
+:global(body.dark-theme-active) .section {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.leftCol {
+  grid-column: 1 / span 3;
+}
+
+.rightCol {
+  grid-column: 4 / span 9;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+@media (max-width: 900px) {
+  .leftCol {
+    grid-column: 1 / -1;
+    margin-bottom: 24px;
+  }
+  .rightCol {
+    grid-column: 1 / -1;
+    gap: 32px;
+  }
+}
+
+.mainText {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  font-weight: 700;
+}
+
+:global(body.dark-theme-active) .mainText {
+  color: var(--white);
+}
+
+@media (max-width: 1024px) {
+  .mainText {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainText {
+    font-size: 2rem;
+  }
+}
+
+.word {
+  display: inline-block;
+  margin-right: 0.25em;
+  opacity: 0.1;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.detailBlock {
+  max-width: 580px;
+  margin-left: 20%;
+}
+
+@media (max-width: 900px) {
+  .detailBlock {
+    margin-left: 0;
+  }
+}
+
+.paragraph {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+:global(body.dark-theme-active) .paragraph {
+  color: #AAA;
+}
+
+@media (max-width: 768px) {
+  .paragraph {
+    font-size: 1rem;
+  }
+}
+
+/* Blueprint lines (Anti-generic details) */
+.gridLineLeft {
+  position: absolute;
+  top: 0;
+  left: calc(25% + 10px); /* Align with grid */
+  width: 1px;
+  height: 100%;
+  background: rgba(11, 11, 11, 0.03);
+  pointer-events: none;
+}
+
+.gridLineRight {
+  position: absolute;
+  top: 0;
+  right: 80px;
+  width: 1px;
+  height: 100%;
+  background: rgba(11, 11, 11, 0.03);
+  pointer-events: none;
+}
+
+:global(body.dark-theme-active) .gridLineLeft,
+:global(body.dark-theme-active) .gridLineRight {
+  background: rgba(255, 255, 255, 0.02);
+}
