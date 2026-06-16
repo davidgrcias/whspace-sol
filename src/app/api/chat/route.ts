@@ -42,8 +42,8 @@ INSTRUCTIONS:
 - Maintain a modern corporate, strategical consulting voice. Do not talk about general topics. If asked out-of-scope questions, guide them back to Whitespace Solutions' services, team, or workflow.`;
 
     // 4. Construct request payload for Gemini API (OpenAI chat completions spec)
-    const apiKey = process.env.GEMINI_API_KEY;
-    const model = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
+    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+    const model = (process.env.GEMINI_MODEL || "gemini-3.1-flash-lite").trim();
 
     if (!apiKey) {
       console.error("Missing GEMINI_API_KEY environment variable");
