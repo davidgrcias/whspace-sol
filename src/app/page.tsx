@@ -8,6 +8,7 @@ import { Services } from "@/components/Services";
 import { HowWeWork } from "@/components/HowWeWork";
 import { Stats } from "@/components/Stats";
 import { Team } from "@/components/Team";
+import { StrategicBrief } from "@/components/StrategicBrief";
 import { Contact } from "@/components/Contact";
 import { ChatWidget } from "@/components/ChatWidget";
 
@@ -66,6 +67,7 @@ export default function Home() {
       <HowWeWork />
       <Stats />
       <Team />
+      <StrategicBrief />
       <Contact />
       <ChatWidget />
     </main>

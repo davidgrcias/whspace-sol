@@ -140,6 +140,28 @@
   text-transform: uppercase;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ttsToggle {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.ttsToggle:hover, .ttsToggle.active {
+  color: var(--gold);
+}
+
 .closeBtn {
   background: transparent;
   border: none;
@@ -315,6 +337,43 @@
 .input:focus {
   border-color: rgba(201, 168, 76, 0.5);
   background-color: rgba(255, 255, 255, 0.05);
+}
+
+.micBtn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.micBtn:hover {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.micBtnListening {
+  color: #ff4757;
+  background-color: rgba(255, 71, 87, 0.1);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+  }
 }
 
 .sendBtn {
