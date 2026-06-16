@@ -65,35 +65,8 @@ export const ChatWidget: React.FC = () => {
     }
   };
 
-  // Initialize Speech Recognition
+  // Cleanup synthesis on unmount
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        
-        recognition.onresult = (event: any) => {
-          const transcript = event.results[0][0].transcript;
-          setInputValue((prev) => prev + (prev ? " " : "") + transcript);
-          setIsListening(false);
-        };
-
-        recognition.onerror = (event: any) => {
-          console.error("Speech recognition error", event.error);
-          setIsListening(false);
-        };
-
-        recognition.onend = () => {
-          setIsListening(false);
-        };
-
-        recognitionRef.current = recognition;
-      }
-    }
-    
-    // Cleanup synthesis on unmount
     return () => {
       if (typeof window !== "undefined" && window.speechSynthesis) {
         window.speechSynthesis.cancel();
@@ -103,24 +76,51 @@ export const ChatWidget: React.FC = () => {
 
   const toggleListening = () => {
     if (isListening) {
-      recognitionRef.current?.stop();
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
       setIsListening(false);
     } else {
-      if (recognitionRef.current) {
+      if (typeof window === "undefined") return;
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      
+      if (!SpeechRecognition) {
+        alert(language === "en" ? "Speech recognition is not supported in this browser." : "Pengenalan suara tidak didukung di browser ini.");
+        return;
+      }
+
+      try {
         // Stop any ongoing TTS before listening
-        if (typeof window !== "undefined" && window.speechSynthesis) {
+        if (window.speechSynthesis) {
           window.speechSynthesis.cancel();
         }
-        
-        recognitionRef.current.lang = language === "en" ? "en-US" : "id-ID";
-        try {
-          recognitionRef.current.start();
-          setIsListening(true);
-        } catch (e) {
-          console.error("Error starting recognition:", e);
-        }
-      } else {
-        alert(language === "en" ? "Speech recognition is not supported in this browser." : "Pengenalan suara tidak didukung di browser ini.");
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = language === "en" ? "en-US" : "id-ID";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setInputValue((prev) => prev + (prev ? " " : "") + transcript);
+          setIsListening(false);
+        };
+
+        recognition.onerror = (event: any) => {
+          console.error("Speech recognition error:", event.error);
+          setIsListening(false);
+        };
+
+        recognition.onend = () => {
+          setIsListening(false);
+        };
+
+        recognitionRef.current = recognition;
+        recognition.start();
+        setIsListening(true);
+      } catch (e) {
+        console.error("Error starting recognition:", e);
+        setIsListening(false);
       }
     }
   };
